@@ -1,5 +1,26 @@
 name: Basic Python Workflow
+
 # This workflow triggers on push and pull request events
 on:
   push:
   pull_request:
+
+# Jobs define the sequence of steps in the workflow
+jobs:
+  run-python-script:
+    name: Run Python Script
+    runs-on: ubuntu-latest  # Uses the latest Ubuntu runner
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        # This step pulls the latest version of the code from the GitHub repository
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        # This installs Python 3.10 on the GitHub runner machine
+
+      - name: Run Python Script
+        run: python script.py
+        # Executes a Python script named script.py
+  
