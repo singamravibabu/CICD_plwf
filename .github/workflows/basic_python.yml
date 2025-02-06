@@ -1,0 +1,5 @@
+name: Basic Python Workflow
+# This workflow triggers on push and pull request events
+on:
+  push:
+  pull_request:
