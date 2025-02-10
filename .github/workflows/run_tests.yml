@@ -1,0 +1,9 @@
+name: Run Python Tests with Pytest
+
+# Triggers the workflow on push and pull request
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-python-code:
