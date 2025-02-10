@@ -1,0 +1,52 @@
+name: Artifact Upload and Download
+
+# Triggers workflow on push and pull reqeuest
+on:
+  push:
+  pull_request:
+
+jobs:
+  generate-report:
+    name: Generate Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        uses: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || echo "No requirements file found"
+
+      - name: Run Python Script
+        run: python generate_report.py
+        # This script generates report.txt
+
+      - name: Upload Artifcact (Report)
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-file
+          path: report.txt
+        # Uploads "report.txt" as an artifact named 'report-file'
+  process-report:
+    name: Process Report
+    runs-on: ubuntu-latest
+    needs: generate-report # Waits for 'generate-report' job to complete
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: report-file
+        # Downloads 'report-file' artifact from the previous job
+
+      - name: Display Report Contents
+        run: cat report.txt
+        # Prints the contents of 'report.txt'
+        
